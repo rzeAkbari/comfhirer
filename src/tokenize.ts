@@ -1,6 +1,8 @@
+import { getResourceType } from "./helper/regex";
+
 export function Tokenize(input: string): string[] {
-  const tokens = [];
-  if (input.indexOf("patient") > -1) tokens.push("patient");
+  let tokens = input.split(".");
+  tokens = tokens.map((token: string) => token.trim());
 
   return tokens;
 }
