@@ -1,10 +1,10 @@
-import { ASTNode } from '../src/model';
+import { Node } from '../src/model';
 import { Tokenize } from '../src/tokenize';
 
 describe('Tokenize', () => {
-  it('should tokenize valid words', () => {
+  it('should tokenize field', () => {
     const input = "Patient.birthDate='20-12-1988'";
-    const expectToken: ASTNode[] = [
+    const expectToken: Node[] = [
       { type: 'resource', value: 'Patient' },
       { type: 'field', value: 'birthDate' },
       { type: 'data', value: '20-12-1988' },
@@ -13,9 +13,21 @@ describe('Tokenize', () => {
     expect(Tokenize(input)).toEqual(expectToken);
   });
 
+  it('should tokenize sub fields', () => {
+    const input = "Patient.maritalStatus.code='M'";
+    const expectToken: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'maritalStatus' },
+      { type: 'field', value: 'code' },
+      { type: 'data', value: 'M' },
+    ];
+
+    expect(Tokenize(input)).toEqual(expectToken);
+  });
+
   it('should remove spaces', () => {
     const input = 'Patient .valid. key = "hi"';
-    const expectToken: ASTNode[] = [
+    const expectToken: Node[] = [
       { type: 'resource', value: 'Patient' },
       { type: 'field', value: 'valid' },
       { type: 'field', value: 'key' },
@@ -27,7 +39,7 @@ describe('Tokenize', () => {
 
   it('should tokenize brackets', () => {
     const input = 'Patient.name.[0].text="raz"';
-    const expectToken: ASTNode[] = [
+    const expectToken: Node[] = [
       { type: 'resource', value: 'Patient' },
       { type: 'field', value: 'name' },
       { type: 'array', value: '0' },

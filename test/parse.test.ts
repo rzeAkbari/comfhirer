@@ -1,30 +1,70 @@
-import { Patient } from "fhir/r4";
-import parse from "../src/parse";
+import { Patient } from 'fhir/r4';
+import { ASTNode, Node } from '../src/model';
+import parse from '../src/parse';
 
-describe("parse", () => {
-  it("should parse patient birthdate", () => {
-    const tokens = ["Patient", "birthDate", "20-12-1988"];
-    const expectedPatientJson: Patient = {
-      resourceType: "Patient",
-      birthDate: "20-12-1988",
+describe('parse', () => {
+  it('should parse simple node', () => {
+    const tokens: Node[] = [{ type: 'resource', value: 'Patient' }];
+
+    const ast: ASTNode = {
+      type: 'Resource',
+      name: 'Patient',
+      value: '',
     };
-    const patientJson = parse(tokens);
+    const parsed = parse(tokens);
 
-    expect(patientJson).toEqual(expectedPatientJson);
+    expect(parsed).toEqual(ast);
   });
 
-  it.only("should parse patient full name", () => {
-    const tokens = ["Patient", "name", "[0]", "text", "Raz Akbari"];
-    const expectedPatientJson: Patient = {
-      resourceType: "Patient",
-      name: [
-        {
-          text: "Raz Akbari",
-        },
-      ],
-    };
-    const patientJson = parse(tokens);
+  it('should parse node with field', () => {
+    const token: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'birthDate' },
+      { type: 'data', value: '20-12-1988' },
+    ];
 
-    expect(patientJson).toEqual(expectedPatientJson);
+    const ast: ASTNode = {
+      type: 'Resource',
+      name: 'Patient',
+      field: {
+        level: 1,
+        type: 'FlatField',
+        name: 'birthDate',
+      },
+      value: '20-12-1988',
+    };
+
+    const expected = parse(token);
+
+    expect(ast).toEqual(expected);
+  });
+
+  it('should parse node with sub field', () => {
+    const token: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'maritalStatus' },
+      { type: 'field', value: 'code' },
+      { type: 'data', value: 'M' },
+    ];
+
+    const ast: ASTNode = {
+      type: 'Resource',
+      name: 'Patient',
+      field: {
+        level: 1,
+        type: 'FlatField',
+        name: 'maritalStatus',
+        field: {
+          level: 2,
+          type: 'FlatField',
+          name: 'code',
+        },
+      },
+      value: 'M',
+    };
+
+    const expected = parse(token);
+
+    expect(ast).toEqual(expected);
   });
 });

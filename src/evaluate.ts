@@ -1,7 +1,7 @@
-import { FhirResource } from "fhir/r4";
-import { ASTNode } from "./model";
+import { FhirResource } from 'fhir/r4';
+import { Node } from './model';
 
-function evaluate(node: ASTNode): FhirResource {
+function evaluate(node: Node): FhirResource {
   let resource: FhirResource = {
     resourceType: node.value,
   };

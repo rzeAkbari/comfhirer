@@ -1,9 +1,9 @@
 import { FhirResourceTypes } from './helper/fhirr4/standard-library';
 import { getResourceType } from './helper/regex';
-import { ASTNode } from './model';
+import { Node } from './model';
 
-export function Tokenize(input: string): ASTNode[] {
-  let tokens: ASTNode[];
+export function Tokenize(input: string): Node[] {
+  let tokens: Node[];
   let [path, value] = input.split('=');
   let keys = path.split('.');
   tokens = keys.map(
@@ -11,7 +11,7 @@ export function Tokenize(input: string): ASTNode[] {
       ({
         type: getKeyType(key),
         value: getValue(key),
-      } as ASTNode)
+      } as Node)
   );
 
   tokens.push({
@@ -22,7 +22,7 @@ export function Tokenize(input: string): ASTNode[] {
   return tokens;
 }
 
-function getKeyType(key: string): ASTNode['type'] {
+function getKeyType(key: string): Node['type'] {
   key = key.trim();
   if (FhirResourceTypes[key]) return 'resource';
   if (isArray(key)) return 'array';

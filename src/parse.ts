@@ -1,14 +1,48 @@
-import { Patient } from "fhir/r4";
-import { patient } from "./helper/fhirr4/resources/patient";
+import { Patient } from 'fhir/r4';
+import { patient } from './helper/fhirr4/resources/patient';
+import { ASTNode, Node } from './model';
 
-function parse(tokens: string[]) {
-  let jsonPatient = new patient();
-  jsonPatient["sth"] = "hi";
+export default function parse(tokens: Node[]): ASTNode {
+  let level = 1;
+  let ast: ASTNode = {
+    type: 'Resource',
+    name: '',
+    value: '',
+  };
 
-  // jsonPatient[tokens[1]] = [{ [tokens[3]]: tokens[4] }];
+  for (const token of tokens) {
+    switch (token.type) {
+      case 'resource':
+        ast.type = 'Resource';
+        ast.name = token.value;
+        break;
+      case 'field':
+        if (level > 1) {
+          ast.field.field = {
+            level,
+            type: 'FlatField',
+            name: token.value,
+          };
+          break;
+        }
+        ast.field = {
+          level,
+          type: 'FlatField',
+          name: token.value,
+        };
+        level++;
+        break;
+      case 'data':
+        ast.value = token.value;
+      default:
+        break;
+    }
+  }
 
-  if (jsonPatient instanceof patient) return jsonPatient;
-  else throw new Error("compile error");
+  return ast;
 }
 
-export default parse;
+function nestedField(node: ASTNode['field']): ASTNode['field'] {
+  node = node.field;
+  return node;
+}
