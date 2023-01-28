@@ -1,5 +1,5 @@
 import { FhirResource } from "fhir/r4";
-import { FhirResourceTypes } from "./fhirr4/fhirr4";
+import { FhirResourceTypes } from "./fhirr4/standard-library";
 
 export function getResourceType(input: string): FhirResource["resourceType"] {
   const re = new RegExp("^([A-Za-z])*");
