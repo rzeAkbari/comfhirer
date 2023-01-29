@@ -12,9 +12,12 @@ export default function traverse(astNodes: ASTNode[]): FhirResource[] {
   let result: FhirResource[] = [];
   activeRersources = instantiateResources(astNodes);
 
-  const resrouceInstance = activeRersources[astNodes[0].name];
+  for (const node of astNodes) {
+    const resrouceInstance = activeRersources[node.name];
+    if (node.field) resrouceInstance[node.field.name] = node.value;
 
-  result.push(resrouceInstance);
+    result.push(resrouceInstance);
+  }
 
   return result;
 }
