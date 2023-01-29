@@ -10,7 +10,7 @@ export interface ASTNode {
   value: string | number;
 }
 
-interface Field {
+export interface Field {
   level: number;
   type: 'FlatField';
   name: string;

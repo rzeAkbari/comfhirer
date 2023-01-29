@@ -1,3 +1,5 @@
+import { patient } from './resources/patient';
+
 export const FhirResourceTypes = {
   //   "Account",
   //   "ActivityDefinition",
@@ -99,7 +101,7 @@ export const FhirResourceTypes = {
   //   "OrganizationAffiliation",
   //   "PackagedProductDefinition",
   //   "Parameters",
-  Patient: 'Patient',
+  Patient: patient,
   //   "PaymentNotice",
   //   "PaymentReconciliation",
   //   "Person",

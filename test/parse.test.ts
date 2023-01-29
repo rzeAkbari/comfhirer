@@ -34,9 +34,9 @@ describe('parse', () => {
       value: '20-12-1988',
     };
 
-    const expected = parse(token);
+    const parsed = parse(token);
 
-    expect(ast).toEqual(expected);
+    expect(ast).toEqual(parsed);
   });
 
   it('should parse node with sub field', () => {
@@ -63,8 +63,39 @@ describe('parse', () => {
       value: 'M',
     };
 
-    const expected = parse(token);
+    const parsed = parse(token);
 
-    expect(ast).toEqual(expected);
+    expect(ast).toEqual(parsed);
+  });
+
+  it('should parse node with recursive sub field', () => {
+    const token: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'maritalStatus' },
+      { type: 'field', value: 'code' },
+      { type: 'field', value: 'index' },
+      { type: 'data', value: '1' },
+    ];
+
+    const ast: ASTNode = {
+      type: 'Resource',
+      name: 'Patient',
+      field: {
+        level: 1,
+        type: 'FlatField',
+        name: 'maritalStatus',
+        field: {
+          level: 2,
+          type: 'FlatField',
+          name: 'code',
+          field: { level: 3, type: 'FlatField', name: 'index' },
+        },
+      },
+      value: '1',
+    };
+
+    const parsed = parse(token);
+
+    expect(ast).toEqual(parsed);
   });
 });
