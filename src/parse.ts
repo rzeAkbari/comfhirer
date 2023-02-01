@@ -1,5 +1,3 @@
-import { Patient } from 'fhir/r4';
-import { patient } from './helper/fhirr4/resources/patient';
 import { ASTNode, Field, Node } from './model';
 
 export default function parse(tokens: Node[]): ASTNode {
@@ -17,6 +15,10 @@ export default function parse(tokens: Node[]): ASTNode {
         ast.name = token.value;
         break;
       case 'field':
+        ast.field = nestedField(ast.field, 1, level, token);
+        level++;
+        break;
+      case 'array':
         ast.field = nestedField(ast.field, 1, level, token);
         level++;
         break;
@@ -39,7 +41,7 @@ function nestedField(
   if (count === level) {
     return {
       level,
-      type: 'FlatField',
+      type: token.type === 'field' ? 'FlatField' : 'MultipleFields',
       name: token.value,
     };
   }

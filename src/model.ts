@@ -12,7 +12,7 @@ export interface ASTNode {
 
 export interface Field {
   level: number;
-  type: 'FlatField';
+  type: 'FlatField' | 'MultipleFields';
   name: string;
   field?: Field;
 }

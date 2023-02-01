@@ -48,4 +48,17 @@ describe('Tokenize', () => {
     ];
     expect(Tokenize(input)).toEqual(expectToken);
   });
+
+  it('should tokenize codable concepts', () => {
+    const input = 'Patient.maritalStatus.coding.[0].code="M"';
+    const expectToken: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'maritalStatus' },
+      { type: 'field', value: 'coding' },
+      { type: 'array', value: '0' },
+      { type: 'field', value: 'code' },
+      { type: 'data', value: 'M' },
+    ];
+    expect(Tokenize(input)).toEqual(expectToken);
+  });
 });

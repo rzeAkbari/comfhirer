@@ -98,4 +98,41 @@ describe('parse', () => {
 
     expect(ast).toEqual(parsed);
   });
+
+  it('should parse codable concept', () => {
+    const token: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'maritalStatus' },
+      { type: 'field', value: 'coding' },
+      { type: 'array', value: '0' },
+      { type: 'field', value: 'code' },
+      { type: 'data', value: 'M' },
+    ];
+
+    const ast: ASTNode = {
+      type: 'Resource',
+      name: 'Patient',
+      field: {
+        level: 1,
+        type: 'FlatField',
+        name: 'maritalStatus',
+        field: {
+          level: 2,
+          type: 'FlatField',
+          name: 'coding',
+          field: {
+            level: 3,
+            type: 'MultipleFields',
+            name: '0',
+            field: { level: 4, type: 'FlatField', name: 'code' },
+          },
+        },
+      },
+      value: 'M',
+    };
+
+    const parsed = parse(token);
+
+    expect(ast).toEqual(parsed);
+  });
 });
