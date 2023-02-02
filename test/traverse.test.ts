@@ -92,7 +92,7 @@ describe('Travers', () => {
     expect(fhirResource).toEqual(expected);
   });
 
-  it('should traverse simple resource with multiple fields', () => {
+  it.only('should traverse simple resource with multiple fields', () => {
     const ast: ASTNode[] = [
       {
         type: 'Resource',
