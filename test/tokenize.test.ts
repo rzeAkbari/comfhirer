@@ -2,12 +2,23 @@ import { Node } from '../src/model';
 import { Tokenize } from '../src/tokenize';
 
 describe('Tokenize', () => {
-  it('should tokenize field', () => {
+  it('should tokenize string field', () => {
     const input = "Patient.birthDate='20-12-1988'";
     const expectToken: Node[] = [
       { type: 'resource', value: 'Patient' },
       { type: 'field', value: 'birthDate' },
       { type: 'data', value: '20-12-1988' },
+    ];
+
+    expect(Tokenize(input)).toEqual(expectToken);
+  });
+
+  it('should tokenize boolean field', () => {
+    const input = 'Patient.active=true';
+    const expectToken: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'active' },
+      { type: 'data', value: true },
     ];
 
     expect(Tokenize(input)).toEqual(expectToken);

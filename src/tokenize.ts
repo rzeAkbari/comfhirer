@@ -31,7 +31,9 @@ function getKeyType(key: string): Node['type'] {
   return 'field';
 }
 
-function getValue(value: string) {
+function getValue(value: string): string | boolean {
+  if (value.indexOf('true') > -1) return true;
+  else if (value.indexOf('false') > -1) return false;
   return value.trim().replace(/['|"|\[|\]\{\}]/g, '');
 }
 

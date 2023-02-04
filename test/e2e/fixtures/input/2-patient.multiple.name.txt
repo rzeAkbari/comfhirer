@@ -13,6 +13,7 @@ Patient.identifier.[1].system="urn:oid:1.2.36.146.595.217.0.1"
 Patient.identifier.[1].value="6789"
 Patient.identifier.[1].period.start="2003-05-06"
 Patient.identifier.[1].assigner.display="Acme Healthcare one"
+Patient.active=true
 Patient.name.[0].use="official"
 Patient.name.[0].family="Chalmers"
 Patient.name.[0].given.{0}="Peter"
