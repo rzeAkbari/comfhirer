@@ -39,6 +39,41 @@ describe('parse', () => {
     expect(ast).toEqual(parsed);
   });
 
+  it('should parse node with number value', () => {
+    const token: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'telecom' },
+      { type: 'array', value: '0' },
+      { type: 'field', value: 'rank' },
+      { type: 'data', value: 1 },
+    ];
+
+    const ast: ASTNode = {
+      type: 'Resource',
+      name: 'Patient',
+      field: {
+        level: 1,
+        type: 'FlatField',
+        name: 'telecom',
+        field: {
+          level: 2,
+          type: 'MultipleFields',
+          name: '0',
+          field: {
+            level: 3,
+            type: 'FlatField',
+            name: 'rank',
+          },
+        },
+      },
+      value: 1,
+    };
+
+    const parsed = parse(token);
+
+    expect(ast).toEqual(parsed);
+  });
+
   it('should parse node with sub field', () => {
     const token: Node[] = [
       { type: 'resource', value: 'Patient' },

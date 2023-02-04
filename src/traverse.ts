@@ -55,12 +55,13 @@ function propagateField(
 
   if (field.type === 'MultipleFields') {
     resrouceInstance =
-      resrouceInstance instanceof Array ? resrouceInstance : [{}];
+      resrouceInstance instanceof Array ? resrouceInstance : [];
     const index = Number.parseInt(field.name, 10);
     if (index > resrouceInstance.length) {
       throw new Error('FhirArrayOutOfBand');
     }
     if (index === resrouceInstance.length) resrouceInstance.push({});
+
     propagateField(field.field, resrouceInstance[index], value);
   }
 

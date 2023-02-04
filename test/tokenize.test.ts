@@ -24,6 +24,19 @@ describe('Tokenize', () => {
     expect(Tokenize(input)).toEqual(expectToken);
   });
 
+  it('should tokenize number field', () => {
+    const input = 'Patient.telecom.[0].rank=1';
+    const expectToken: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'telecom' },
+      { type: 'array', value: '0' },
+      { type: 'field', value: 'rank' },
+      { type: 'data', value: 1 },
+    ];
+
+    expect(Tokenize(input)).toEqual(expectToken);
+  });
+
   it('should tokenize sub fields', () => {
     const input = "Patient.maritalStatus.code='M'";
     const expectToken: Node[] = [

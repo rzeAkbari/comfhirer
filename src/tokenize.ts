@@ -4,19 +4,21 @@ import { Node } from './model';
 
 export function Tokenize(input: string): Node[] {
   let tokens: Node[];
+  // input = input.replaceAll('"', '\\"');
+  // input = input.replaceAll("'", '\\"');
   let [path, value] = input.split('=');
   let keys = path.split('.');
   tokens = keys.map(
     (key: string) =>
       ({
         type: getKeyType(key),
-        value: getValue(key),
+        value: getKeyValue(key),
       } as Node)
   );
 
   tokens.push({
     type: 'data',
-    value: getValue(value),
+    value: getDataValue(value),
   });
 
   return tokens;
@@ -31,10 +33,16 @@ function getKeyType(key: string): Node['type'] {
   return 'field';
 }
 
-function getValue(value: string): string | boolean {
+function getKeyValue(value: string): string {
+  return value.trim().replace(/[\[|\]\{\}]/g, '');
+}
+
+function getDataValue(value: string): string | boolean | number {
   if (value.indexOf('true') > -1) return true;
   else if (value.indexOf('false') > -1) return false;
-  return value.trim().replace(/['|"|\[|\]\{\}]/g, '');
+  if (value.indexOf("'") === -1 && value.indexOf('"') === -1)
+    return Number.parseInt(value);
+  return value.trim().replace(/['|"]/g, '');
 }
 
 function isArray(input: string) {

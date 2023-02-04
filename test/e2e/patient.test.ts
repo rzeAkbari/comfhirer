@@ -4,6 +4,7 @@ import path from 'path';
 import patientSingleIdentifier from './fixtures/result/0-patient.single.identifier.json';
 import patientMultipleIdentifier from './fixtures/result/1-patient.multiple.identifier.json';
 import patientMultipleName from './fixtures/result/2-patient.multiple.name.json';
+import patientMultipleTelecom from './fixtures/result/3-patient.multiple.telecom.json';
 
 import Compile from '../../src/main';
 import { Patient } from 'fhir/r4';
@@ -38,6 +39,17 @@ describe('Patient e2e', () => {
       let patient = Compile(file);
 
       expect(patient).toEqual(patientMultipleName);
+    });
+    it('should set multiple telecom', () => {
+      const file = fs.readFileSync(
+        path.resolve(
+          __dirname,
+          './fixtures/input/3-patient.multiple.telecom.txt'
+        )
+      );
+      let patient = Compile(file);
+
+      expect(patient).toEqual(patientMultipleTelecom);
     });
   });
 });
