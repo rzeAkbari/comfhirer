@@ -26,14 +26,19 @@ function getKeyType(key: string): Node['type'] {
   key = key.trim();
   if (FhirResourceTypes[key]) return 'resource';
   if (isArray(key)) return 'array';
+  if (isSimpleArray(key)) return 'simpleArray';
 
   return 'field';
 }
 
 function getValue(value: string) {
-  return value.trim().replace(/['|"|\[|\]]/g, '');
+  return value.trim().replace(/['|"|\[|\]\{\}]/g, '');
 }
 
 function isArray(input: string) {
   return input.indexOf('[') > -1;
+}
+
+function isSimpleArray(input: string) {
+  return input.indexOf('{') > -1;
 }

@@ -135,4 +135,41 @@ describe('parse', () => {
 
     expect(ast).toEqual(parsed);
   });
+
+  it('should parse resource with multiple given name', () => {
+    const expectToken: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'name' },
+      { type: 'array', value: '1' },
+      { type: 'field', value: 'given' },
+      { type: 'simpleArray', value: '1' },
+      { type: 'data', value: 'Peter' },
+    ];
+
+    const ast: ASTNode = {
+      type: 'Resource',
+      name: 'Patient',
+      field: {
+        level: 1,
+        type: 'FlatField',
+        name: 'name',
+        field: {
+          level: 2,
+          type: 'MultipleFields',
+          name: '1',
+          field: {
+            level: 3,
+            type: 'FlatField',
+            name: 'given',
+            field: {
+              level: 4,
+              type: 'MultipleSimpleFields',
+              name: '1',
+            },
+          },
+        },
+      },
+      value: 'Peter',
+    };
+  });
 });

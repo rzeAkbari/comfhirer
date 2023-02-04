@@ -14,7 +14,7 @@ export default function traverse(astNodes: ASTNode[]): FhirResource[] {
 
   for (const node of astNodes) {
     let resrouceInstance = activeRersources[node.name];
-    propagateField(node.field, resrouceInstance, node.value); //ms
+    propagateField(node.field, resrouceInstance, node.value);
   }
 
   for (const resourceName of Object.keys(activeRersources)) {
@@ -24,17 +24,28 @@ export default function traverse(astNodes: ASTNode[]): FhirResource[] {
   return result;
 }
 
-function propagateField(field: Field, resrouceInstance, value: any) {
+function propagateField(
+  field: Field,
+  resrouceInstance: any,
+  value: any
+): FhirResource {
   if (isRoot(field)) return resrouceInstance;
 
   if (isLeafe(field)) {
-    resrouceInstance[field.name] = value;
+    if (isMultipleSimpleFields(field.type)) {
+      resrouceInstance = setMultipleSimpleFields(
+        resrouceInstance,
+        field,
+        value
+      );
+    } else {
+      resrouceInstance[field.name] = value;
+    }
     return resrouceInstance;
   }
 
   if (field.type === 'FlatField') {
     resrouceInstance[field.name] = resrouceInstance[field.name] || {};
-
     resrouceInstance[field.name] = propagateField(
       field.field,
       resrouceInstance[field.name],
@@ -43,7 +54,13 @@ function propagateField(field: Field, resrouceInstance, value: any) {
   }
 
   if (field.type === 'MultipleFields') {
-    resrouceInstance = [propagateField(field.field, resrouceInstance, value)];
+    resrouceInstance =
+      resrouceInstance instanceof Array ? resrouceInstance : [{}];
+    const index = Number.parseInt(field.name, 10);
+    if (index > resrouceInstance.length - 1) {
+      throw new Error('FhirArrayOutOfBand');
+    }
+    propagateField(field.field, resrouceInstance[index], value);
   }
 
   return resrouceInstance;
@@ -55,6 +72,18 @@ function isRoot(field: Field): boolean {
 
 function isLeafe(field: Field): boolean {
   return field.field === undefined;
+}
+
+function isMultipleSimpleFields(fieldType: string): boolean {
+  return fieldType === 'MultipleSimpleFields';
+}
+
+function setMultipleSimpleFields(resrouceInstance, field, value) {
+  resrouceInstance = resrouceInstance instanceof Array ? resrouceInstance : [];
+  const index = Number.parseInt(field.name, 10);
+  resrouceInstance.splice(index, 0, value);
+
+  return resrouceInstance;
 }
 
 function instantiateResources(astNodes: ASTNode[]): activeResource {

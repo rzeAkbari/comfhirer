@@ -49,6 +49,19 @@ describe('Tokenize', () => {
     expect(Tokenize(input)).toEqual(expectToken);
   });
 
+  it('should tokenize graphs', () => {
+    const input = 'Patient.name.[0].given.{1}="raz"';
+    const expectToken: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'name' },
+      { type: 'array', value: '0' },
+      { type: 'field', value: 'given' },
+      { type: 'simpleArray', value: '1' },
+      { type: 'data', value: 'raz' },
+    ];
+    expect(Tokenize(input)).toEqual(expectToken);
+  });
+
   it('should tokenize codable concepts', () => {
     const input = 'Patient.maritalStatus.coding.[0].code="M"';
     const expectToken: Node[] = [
@@ -58,6 +71,19 @@ describe('Tokenize', () => {
       { type: 'array', value: '0' },
       { type: 'field', value: 'code' },
       { type: 'data', value: 'M' },
+    ];
+    expect(Tokenize(input)).toEqual(expectToken);
+  });
+
+  it('should tokenize resource with multiple given name', () => {
+    const input = 'Patient.name.[1].given.{1}="Peter"';
+    const expectToken: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'field', value: 'name' },
+      { type: 'array', value: '1' },
+      { type: 'field', value: 'given' },
+      { type: 'simpleArray', value: '1' },
+      { type: 'data', value: 'Peter' },
     ];
     expect(Tokenize(input)).toEqual(expectToken);
   });

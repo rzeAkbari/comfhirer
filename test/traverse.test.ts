@@ -49,7 +49,7 @@ describe('Travers', () => {
     expect(fhirResource).toEqual(expected);
   });
 
-  it('should traverse simple resource with two nodes', () => {
+  it('should traverse simple resource with array fields', () => {
     const ast: ASTNode[] = [
       {
         type: 'Resource',
@@ -92,7 +92,7 @@ describe('Travers', () => {
     expect(fhirResource).toEqual(expected);
   });
 
-  it.only('should traverse simple resource with multiple fields', () => {
+  it('should traverse simple resource with array fields and two nodes', () => {
     const ast: ASTNode[] = [
       {
         type: 'Resource',
@@ -144,5 +144,109 @@ describe('Travers', () => {
     const fhirResource = traverse(ast);
 
     expect(fhirResource).toEqual(expected);
+  });
+
+  describe('human names', () => {
+    it('should throw FhirArrayOutOfBAnd', () => {
+      const ast: ASTNode[] = [
+        {
+          type: 'Resource',
+          name: 'Patient',
+          field: {
+            level: 1,
+            type: 'FlatField',
+            name: 'name',
+            field: {
+              level: 2,
+              type: 'MultipleFields',
+              name: '1',
+              field: {
+                level: 3,
+                type: 'FlatField',
+                name: 'given',
+                field: {
+                  level: 4,
+                  type: 'MultipleSimpleFields',
+                  name: '1',
+                },
+              },
+            },
+          },
+          value: 'Peter',
+        },
+      ];
+
+      expect(() => traverse(ast)).toThrow(Error);
+    });
+
+    it('should traverse multiple human names', () => {
+      const ast: ASTNode[] = [
+        {
+          type: 'Resource',
+          name: 'Patient',
+          field: {
+            level: 1,
+            type: 'FlatField',
+            name: 'name',
+            field: {
+              level: 2,
+              type: 'MultipleFields',
+              name: '0',
+              field: {
+                level: 3,
+                type: 'FlatField',
+                name: 'given',
+                field: {
+                  level: 4,
+                  type: 'MultipleSimpleFields',
+                  name: '0',
+                },
+              },
+            },
+          },
+          value: 'Peter',
+        },
+        {
+          type: 'Resource',
+          name: 'Patient',
+          field: {
+            level: 1,
+            type: 'FlatField',
+            name: 'name',
+            field: {
+              level: 2,
+              type: 'MultipleFields',
+              name: '0',
+              field: {
+                level: 3,
+                type: 'FlatField',
+                name: 'given',
+                field: {
+                  level: 4,
+                  type: 'MultipleSimpleFields',
+                  name: '1',
+                },
+              },
+            },
+          },
+          value: 'Sam',
+        },
+      ];
+
+      const expected: Patient[] = [
+        {
+          resourceType: 'Patient',
+          name: [
+            {
+              given: ['Peter', 'Sam'],
+            },
+          ],
+        },
+      ];
+
+      const fhirResource = traverse(ast);
+
+      expect(fhirResource).toEqual(expected);
+    });
   });
 });

@@ -1,5 +1,5 @@
 export interface Node {
-  type: 'resource' | 'field' | 'data' | 'array';
+  type: 'resource' | 'field' | 'data' | 'array' | 'simpleArray';
   value: any;
 }
 
@@ -12,7 +12,7 @@ export interface ASTNode {
 
 export interface Field {
   level: number;
-  type: 'FlatField' | 'MultipleFields';
+  type: 'FlatField' | 'MultipleFields' | 'MultipleSimpleFields';
   name: string;
   field?: Field;
 }
