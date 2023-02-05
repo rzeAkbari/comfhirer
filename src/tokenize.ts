@@ -1,11 +1,8 @@
 import { FhirResourceTypes } from './helper/fhirr4/standard-library';
-import { getResourceType } from './helper/regex';
 import { Node } from './model';
 
 export function Tokenize(input: string): Node[] {
   let tokens: Node[];
-  // input = input.replaceAll('"', '\\"');
-  // input = input.replaceAll("'", '\\"');
   let [path, value] = input.split('=');
   let keys = path.split('.');
   tokens = keys.map(

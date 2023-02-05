@@ -5,6 +5,9 @@ import patientSingleIdentifier from './fixtures/result/0-patient.single.identifi
 import patientMultipleIdentifier from './fixtures/result/1-patient.multiple.identifier.json';
 import patientMultipleName from './fixtures/result/2-patient.multiple.name.json';
 import patientMultipleTelecom from './fixtures/result/3-patient.multiple.telecom.json';
+import patientExtension from './fixtures/result/4-patient.extention.json';
+import patientMultipleAddress from './fixtures/result/5-patient.multiple.address.json';
+import patientContact from './fixtures/result/6-patient.contact.json';
 
 import Compile from '../../src/main';
 import { Patient } from 'fhir/r4';
@@ -50,6 +53,31 @@ describe('Patient e2e', () => {
       let patient = Compile(file);
 
       expect(patient).toEqual(patientMultipleTelecom);
+    });
+    it('should set extensions', () => {
+      const file = fs.readFileSync(
+        path.resolve(__dirname, './fixtures/input/4-patient.extension.txt')
+      );
+      let patient = Compile(file);
+
+      expect(patient).toEqual(patientExtension);
+    });
+    it('should set address', () => {
+      const file = fs.readFileSync(
+        path.resolve(
+          __dirname,
+          './fixtures/input/5-patient.multiple.address.txt'
+        )
+      );
+      let patient = Compile(file);
+      expect(patient).toEqual(patientMultipleAddress);
+    });
+    it('should set contact', () => {
+      const file = fs.readFileSync(
+        path.resolve(__dirname, './fixtures/input/6-patient.contact.txt')
+      );
+      let patient = Compile(file);
+      expect(patient).toEqual(patientContact);
     });
   });
 });
