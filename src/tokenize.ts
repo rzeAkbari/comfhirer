@@ -1,4 +1,6 @@
+import ComfhirerError, { ErrorName } from './comfhirerError';
 import { FhirResourceTypes } from './helper/fhirr4/standard-library';
+import { Error } from '../src/constants';
 import { Node } from './model';
 
 export function Tokenize(input: string): Node[] {
@@ -23,6 +25,7 @@ export function Tokenize(input: string): Node[] {
 
 function getKeyType(key: string): Node['type'] {
   key = key.trim();
+  catchKeySyntaxError(key);
   if (FhirResourceTypes[key]) return 'resource';
   if (isArray(key)) return 'array';
   if (isSimpleArray(key)) return 'simpleArray';
@@ -36,10 +39,43 @@ function getKeyValue(value: string): string {
 
 function getDataValue(value: string): string | boolean | number {
   if (value.indexOf('true') > -1) return true;
-  else if (value.indexOf('false') > -1) return false;
-  if (value.indexOf("'") === -1 && value.indexOf('"') === -1)
+  if (value.indexOf('false') > -1) return false;
+  if (value.indexOf("'") === -1 && value.indexOf('"') === -1) {
+    if (Number.isNaN(Number.parseFloat(value)))
+      throw new ComfhirerError(
+        'UnsupportedValue',
+        Error.message.NO_QUOTE,
+        'syntax'
+      );
     return Number.parseInt(value);
+  }
   return value.trim().replace(/['|"]/g, '');
+}
+
+function catchKeySyntaxError(key: string) {
+  if (key.match(/[0-9]/)) {
+    throw new ComfhirerError(
+      'UnsupportedKey',
+      Error.message.NO_NUMBER,
+      'syntax'
+    );
+  }
+
+  if (key.match(/\[|\]/)) {
+    throw new ComfhirerError(
+      'UnsupportedKey',
+      Error.message.NO_BRACKET,
+      'syntax'
+    );
+  }
+
+  if (key.match(/\{|\}/)) {
+    throw new ComfhirerError(
+      'UnsupportedKey',
+      Error.message.NO_PARANTHESIS,
+      'syntax'
+    );
+  }
 }
 
 function isArray(input: string) {

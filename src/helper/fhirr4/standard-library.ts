@@ -1,3 +1,4 @@
+import { medication } from './resources/medication';
 import { patient } from './resources/patient';
 
 export const FhirResourceTypes = {
@@ -80,7 +81,7 @@ export const FhirResourceTypes = {
   //   "Measure",
   //   "MeasureReport",
   //   "Media",
-  //   "Medication",
+  Medication: medication,
   //   "MedicationAdministration",
   //   "MedicationDispense",
   //   "MedicationKnowledge",
