@@ -1,4 +1,3 @@
-import { FhirResource } from 'fhir/r4';
 import { ASTNode } from './model';
 import Parse from './parse';
 import { Tokenize } from './tokenize';

@@ -1,6 +1,6 @@
 import ComfhirerError, { ErrorName } from './comfhirerError';
 import { FhirResourceTypes } from './helper/fhirr4/standard-library';
-import { Error } from '../src/constants';
+import { Error } from './constants';
 import { Node } from './model';
 
 export function Tokenize(input: string): Node[] {
@@ -53,23 +53,21 @@ function getDataValue(value: string): string | boolean | number {
 }
 
 function catchKeySyntaxError(key: string) {
-  if (key.match(/[0-9]/)) {
+  if (key.match(/\w\d|\d\w/)) {
     throw new ComfhirerError(
       'UnsupportedKey',
       Error.message.NO_NUMBER,
       'syntax'
     );
   }
-
-  if (key.match(/\[|\]/)) {
+  if (key.match(/\w\[|\]\w/)) {
     throw new ComfhirerError(
       'UnsupportedKey',
       Error.message.NO_BRACKET,
       'syntax'
     );
   }
-
-  if (key.match(/\{|\}/)) {
+  if (key.match(/\w\{|\}\w/)) {
     throw new ComfhirerError(
       'UnsupportedKey',
       Error.message.NO_PARANTHESIS,
