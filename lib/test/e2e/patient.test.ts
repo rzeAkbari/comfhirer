@@ -9,8 +9,7 @@ import patientExtension from './fixtures/result/4-patient.extention.json';
 import patientMultipleAddress from './fixtures/result/5-patient.multiple.address.json';
 import patientContact from './fixtures/result/6-patient.contact.json';
 
-import Compile from '../../src/main';
-import { Patient } from 'fhir/r4';
+import { Compile } from '../../src/main';
 describe('Patient e2e', () => {
   describe('identifier', () => {
     it('should set single identifer', () => {

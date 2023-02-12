@@ -1,5 +1,4 @@
 import { Tokenize } from '../src/tokenize';
-import ComfhirerError from '../src/comfhirerError';
 describe('Error', () => {
   describe('Tokenize Error', () => {
     it('should throw when string value with no quotes', () => {
