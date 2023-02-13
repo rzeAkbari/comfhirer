@@ -35,20 +35,17 @@ Patient.identifier.[0].type.coding.[0].code="MR"
 Patient.identifier.[0].system="urn:oid:1.2.36.146.595.217.0.1"
 Patient.identifier.[0].value="12345"
 Patient.identifier.[0].period.start="2001-05-06"
-Patient.identifier.[0].assigner.display="Acme Healthcare"
-Patient.identifier.[1].use="official"
-Patient.identifier.[1].type.coding.[0].system="http://terminology.hl7.org/CodeSystem/v2-0206"
-Patient.identifier.[1].type.coding.[0].code="MR"
-Patient.identifier.[1].type.coding.[0].display="Peter"
-Patient.identifier.[1].system="urn:oid:1.2.36.146.595.217.0.1"
-Patient.identifier.[1].value="6789"
-Patient.identifier.[1].period.start="2003-05-06"
-Patient.identifier.[1].assigner.display="Acme Healthcare one"`;
+Patient.identifier.[0].assigner.display="Acme Healthcare"`;
+
   const [key, setKey] = useState<string>(sampleValue);
   const [fhir, setFhir] = useState<string>('');
   const getFhirJson = () => {
-    let result = window.comfhirer.Compile(key);
-    setFhir(result);
+    try {
+      let result = window.comfhirer.Compile(key);
+      setFhir(result);
+    } catch (error) {
+      setFhir(error as string);
+    }
   };
   return (
     <Grid container spacing={2}>
@@ -57,10 +54,12 @@ Patient.identifier.[1].assigner.display="Acme Healthcare one"`;
           Check
         </Button>
         <TextField
-          sx={{ mt: '2rem' }}
+          sx={{
+            mt: '4rem',
+          }}
           fullWidth
           multiline
-          label='Key'
+          label='Comfhirer key'
           variant='outlined'
           value={key}
           onChange={(e) => setKey(e.target.value)}

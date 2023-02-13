@@ -1,6 +1,9 @@
 export type ErrorType = 'semantic' | 'syntax';
 
-export type ErrorName = 'UnsupportedValue' | 'UnsupportedKey';
+export type ErrorName =
+  | 'UnsupportedValue'
+  | 'UnsupportedKey'
+  | 'UnsupportedResource';
 
 export default class ComfhirerError implements Error {
   name: string;
