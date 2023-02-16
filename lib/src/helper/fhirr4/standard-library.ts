@@ -1,5 +1,7 @@
 import { medication } from './resources/medication';
 import { patient } from './resources/patient';
+import { communication } from './fields/patient/communication';
+import { telecom } from './fields/common/telecom';
 
 export const FhirResourceTypes = {
   //   "Account",
@@ -143,4 +145,9 @@ export const FhirResourceTypes = {
   //   "ValueSet",
   //   "VerificationResult",
   //   "VisionPrescription",
+};
+
+export const FhirFieldTypes = {
+  communication,
+  telecom,
 };
