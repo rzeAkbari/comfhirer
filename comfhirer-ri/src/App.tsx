@@ -1,5 +1,22 @@
 import { AppBar, Toolbar, Typography } from '@mui/material';
-import ComfhirerCaller from './components/ComfhirerCaller';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import ComfhirerCaller from './components/caller/ComfhirerCaller';
+import Dashboard from './components/dashboard/Dashboard';
+import Layout from './components/layout/Layout';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { path: '', element: <Dashboard /> },
+      {
+        path: 'caller',
+        element: <ComfhirerCaller />,
+      },
+    ],
+  },
+]);
 
 function App() {
   return (
@@ -11,9 +28,8 @@ function App() {
           </Typography>
         </Toolbar>
       </AppBar>
-      <main style={{ margin: '2rem' }}>
-        <ComfhirerCaller />
-      </main>
+
+      <RouterProvider router={router} />
     </div>
   );
 }
