@@ -15,10 +15,11 @@ export function Tokenize(input: string): Node[] {
       } as Node)
   );
 
-  tokens.push({
-    type: 'data',
-    value: getDataValue(value),
-  });
+  value &&
+    tokens.push({
+      type: 'data',
+      value: getDataValue(value),
+    });
 
   return tokens;
 }

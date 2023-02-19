@@ -1,4 +1,4 @@
-import { Grid, TextField, Button, Container } from '@mui/material';
+import { Grid, TextField, Button, Container, Tooltip } from '@mui/material';
 import { ReactElement, useState } from 'react';
 declare const window: any;
 
@@ -12,7 +12,9 @@ function ComfhirerCaller(): ReactElement {
   Patient.identifier.[0].assigner.display="Acme Healthcare"`;
 
   const [key, setKey] = useState<string>(defaultValue);
-  const [fhir, setFhir] = useState<string>('');
+  const [derviedKey, setDerviedKey] = useState<string>();
+  const [intellisense, setIntellisense] = useState<string>();
+  const [fhir, setFhir] = useState<string>();
   const getFhirJson = () => {
     try {
       let result = window.comfhirer.Compile(key);
@@ -21,14 +23,40 @@ function ComfhirerCaller(): ReactElement {
       setFhir(error as string);
     }
   };
+  const handleDrivedKey = (
+    e: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    setDerviedKey(e.target.value);
+    const keys = e.target.value.split('.');
+    if (keys.length > 1) {
+      const intellisense: string[] = window.comfhirer.GetIntellisense(
+        keys[keys.length - 2]
+      );
+      const result = intellisense.length > 1 ? intellisense.join(' , ') : '';
+      setIntellisense(result);
+    } else setIntellisense('');
+  };
   return (
     <Grid data-testid='caller' container spacing={2}>
       <Grid item xs={6}>
+        <Tooltip title={intellisense} arrow>
+          <TextField
+            sx={{
+              mb: '2rem',
+              letterSpacing: '1px',
+            }}
+            fullWidth
+            multiline
+            label='Key Maker'
+            variant='outlined'
+            value={derviedKey}
+            onChange={handleDrivedKey}
+          />
+        </Tooltip>
         <TextField
           sx={{
             mb: '2rem',
             letterSpacing: '1px',
-            minHeight: '70vh',
           }}
           fullWidth
           multiline

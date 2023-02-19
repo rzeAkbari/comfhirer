@@ -5,7 +5,7 @@ import {
 } from './helper/fhirr4/standard-library';
 import ComfhirerError from './comfhirerError';
 
-function evaluate(node: ASTNode) {
+function Evaluate(node: ASTNode) {
   const reg = new RegExp('[0-9]');
 
   if (!FhirResourceTypes[node.name]) {
@@ -34,4 +34,4 @@ function evaluate(node: ASTNode) {
   }
 }
 
-export default evaluate;
+export default Evaluate;
