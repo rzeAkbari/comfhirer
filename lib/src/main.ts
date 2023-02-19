@@ -1,3 +1,4 @@
+import evaluate from './evaluate';
 import { ASTNode } from './model';
 import Parse from './parse';
 import { Tokenize } from './tokenize';
@@ -8,7 +9,8 @@ export function Compile(input: Buffer | string) {
   const ast: ASTNode[] = [];
   for (let line = 0; line < fhirExpressions.length; line++) {
     const nodes = Tokenize(fhirExpressions[line]);
-    ast.push(Parse(nodes));
+    const astNode = Parse(nodes);
+    ast.push(astNode);
   }
   return traverse(ast)[0];
 }

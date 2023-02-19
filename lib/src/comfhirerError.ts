@@ -10,10 +10,20 @@ export default class ComfhirerError implements Error {
   message: string;
   stack?: string;
   type: ErrorType;
+  keyName: string;
+  keyLevel: number;
 
-  constructor(name: ErrorName, message: string, type: ErrorType) {
+  constructor(
+    name: ErrorName,
+    message: string,
+    type: ErrorType,
+    keyName: string,
+    keyLevel?: number
+  ) {
     this.name = name;
     this.message = message;
     this.type = type;
+    this.keyName = keyName;
+    this.keyLevel = keyLevel;
   }
 }

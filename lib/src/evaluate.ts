@@ -12,7 +12,8 @@ function evaluate(node: ASTNode) {
     throw new ComfhirerError(
       'UnsupportedResource',
       'resource not supported',
-      'semantic'
+      'semantic',
+      node.name
     );
   }
 
@@ -22,7 +23,9 @@ function evaluate(node: ASTNode) {
       throw new ComfhirerError(
         'UnsupportedKey',
         `${node.field.name} not exists in type ${node.name}`,
-        'semantic'
+        'semantic',
+        node.field.name,
+        node.field.level
       );
     resource = new FhirFieldTypes[node.field.name]();
     node.field = reg.test(node.field.field.name)

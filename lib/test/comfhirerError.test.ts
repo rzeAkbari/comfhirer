@@ -1,3 +1,4 @@
+import ComfhirerError from '../src/comfhirerError';
 import { Tokenize } from '../src/tokenize';
 describe('Error', () => {
   describe('Tokenize Error', () => {
@@ -8,7 +9,7 @@ describe('Error', () => {
 
     it('should throw when key with numbers', () => {
       const input = 'Patient.telecom0.[0].rank="hi"';
-      expect(() => Tokenize(input)).toThrow('key with number');
+      expect(() => Tokenize(input)).toThrow(ComfhirerError);
     });
 
     it('should throw when key with brackets', () => {

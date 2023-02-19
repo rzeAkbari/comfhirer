@@ -45,7 +45,8 @@ function getDataValue(value: string): string | boolean | number {
       throw new ComfhirerError(
         'UnsupportedValue',
         Error.message.NO_QUOTE,
-        'syntax'
+        'syntax',
+        'fhirValue'
       );
     return Number.parseInt(value);
   }
@@ -57,21 +58,24 @@ function catchKeySyntaxError(key: string) {
     throw new ComfhirerError(
       'UnsupportedKey',
       Error.message.NO_NUMBER,
-      'syntax'
+      'syntax',
+      'fhirValue'
     );
   }
   if (key.match(/\w\[|\]\w/)) {
     throw new ComfhirerError(
       'UnsupportedKey',
       Error.message.NO_BRACKET,
-      'syntax'
+      'syntax',
+      key
     );
   }
   if (key.match(/\w\{|\}\w/)) {
     throw new ComfhirerError(
       'UnsupportedKey',
       Error.message.NO_PARANTHESIS,
-      'syntax'
+      'syntax',
+      key
     );
   }
 }
