@@ -36,4 +36,17 @@ describe('Intellisense', () => {
     const suggestions = Intellisense('Patient.active.');
     expect(suggestions).toEqual([]);
   });
+
+  it('should suggest for field name telecome', () => {
+    const suggestions = Intellisense('Patient.telecom.');
+    expect(suggestions).toEqual([
+      'period',
+      'rank',
+      'system',
+      'use',
+      'value',
+      'extension',
+      'id',
+    ]);
+  });
 });

@@ -13,7 +13,7 @@ function Intellisense(expression: string): string[] {
     const resourceName = nodes[0].value;
     resourceInstance = new FhirResourceTypes[resourceName]();
   } else {
-    const fieldName = nodes[nodes.length - 1].value;
+    const fieldName = nodes[nodes.length - 2].value;
     resourceInstance = FhirFieldTypes[fieldName]
       ? new FhirFieldTypes[fieldName]()
       : [];

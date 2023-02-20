@@ -13,7 +13,7 @@ export function Compile(input: Buffer | string) {
     const astNode = Parse(nodes);
     ast.push(astNode);
   }
-  return traverse(ast)[0];
+  return traverse(ast);
 }
 
 export function GetIntellisense(key: string) {

@@ -19,7 +19,7 @@ describe('Patient e2e', () => {
           './fixtures/input/0-patient.single.identifier.txt'
         )
       );
-      let patient = Compile(file);
+      let [patient] = Compile(file);
 
       expect(patient).toEqual(patientSingleIdentifier);
     });
@@ -30,7 +30,7 @@ describe('Patient e2e', () => {
           './fixtures/input/1-patient.multiple.identifier.txt'
         )
       );
-      let patient = Compile(file);
+      let [patient] = Compile(file);
 
       expect(patient).toEqual(patientMultipleIdentifier);
     });
@@ -38,7 +38,7 @@ describe('Patient e2e', () => {
       const file = fs.readFileSync(
         path.resolve(__dirname, './fixtures/input/2-patient.multiple.name.txt')
       );
-      let patient = Compile(file);
+      let [patient] = Compile(file);
 
       expect(patient).toEqual(patientMultipleName);
     });
@@ -49,7 +49,7 @@ describe('Patient e2e', () => {
           './fixtures/input/3-patient.multiple.telecom.txt'
         )
       );
-      let patient = Compile(file);
+      let [patient] = Compile(file);
 
       expect(patient).toEqual(patientMultipleTelecom);
     });
@@ -57,7 +57,7 @@ describe('Patient e2e', () => {
       const file = fs.readFileSync(
         path.resolve(__dirname, './fixtures/input/4-patient.extension.txt')
       );
-      let patient = Compile(file);
+      let [patient] = Compile(file);
 
       expect(patient).toEqual(patientExtension);
     });
@@ -68,14 +68,15 @@ describe('Patient e2e', () => {
           './fixtures/input/5-patient.multiple.address.txt'
         )
       );
-      let patient = Compile(file);
+      let [patient] = Compile(file);
       expect(patient).toEqual(patientMultipleAddress);
     });
     it('should set contact', () => {
       const file = fs.readFileSync(
         path.resolve(__dirname, './fixtures/input/6-patient.contact.txt')
       );
-      let patient = Compile(file);
+      let [patient] = Compile(file);
+
       expect(patient).toEqual(patientContact);
     });
   });
