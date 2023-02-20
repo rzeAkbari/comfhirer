@@ -57,10 +57,11 @@ function ComfhirerCaller(): ReactElement {
           sx={{
             mb: '2rem',
             letterSpacing: '1px',
+            maxHeight: '60vh',
+            overflow: 'auto',
           }}
           fullWidth
           multiline
-          label='Comfhirer key'
           variant='outlined'
           value={key}
           onChange={(e) => setKey(e.target.value)}
