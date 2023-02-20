@@ -28,9 +28,9 @@ function ComfhirerCaller(): ReactElement {
   ) => {
     setDerviedKey(e.target.value);
     const keys = e.target.value.split('.');
-    if (keys.length > 1) {
+    if (keys.length > 1 && !keys[keys.length - 1]) {
       const intellisense: string[] = window.comfhirer.GetIntellisense(
-        keys[keys.length - 2]
+        e.target.value
       );
       const result = intellisense.length > 1 ? intellisense.join(' , ') : '';
       setIntellisense(result);
