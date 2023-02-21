@@ -1,5 +1,5 @@
 export interface Node {
-  type: 'resource' | 'field' | 'data' | 'array' | 'simpleArray';
+  type: 'resource' | 'index' | 'field' | 'data' | 'array' | 'simpleArray';
   value: any;
 }
 
@@ -8,6 +8,7 @@ export interface ASTNode {
   name: string;
   field?: Field;
   value: string | number;
+  index?: number;
 }
 
 export interface Field {

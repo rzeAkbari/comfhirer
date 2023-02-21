@@ -13,7 +13,8 @@ export default function traverse(astNodes: ASTNode[]): FhirResource[] {
   activeRersources = instantiateResources(astNodes);
 
   for (const node of astNodes) {
-    let resrouceInstance = activeRersources[node.name];
+    const resourceKey = node.name + '_' + node.index;
+    let resrouceInstance = activeRersources[resourceKey];
     propagateField(node.field, resrouceInstance, node.value);
   }
 
@@ -91,10 +92,11 @@ function setMultipleSimpleFields(resrouceInstance, field, value) {
 function instantiateResources(astNodes: ASTNode[]): activeResource {
   let activeRersources: activeResource = {};
   for (const node of astNodes) {
-    if (!activeRersources[node.name]) {
+    const resourceKey = node.name + '_' + node.index;
+    if (!activeRersources[resourceKey]) {
       const resourceRef = FhirResourceTypes[node.name];
       const resourceInstance = new resourceRef();
-      activeRersources[node.name] = resourceInstance;
+      activeRersources[resourceKey] = resourceInstance;
     }
   }
 

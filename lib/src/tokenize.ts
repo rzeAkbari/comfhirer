@@ -30,12 +30,13 @@ function getKeyType(key: string): Node['type'] {
   if (FhirResourceTypes[key]) return 'resource';
   if (isArray(key)) return 'array';
   if (isSimpleArray(key)) return 'simpleArray';
+  if (isIndex(key)) return 'index';
 
   return 'field';
 }
 
 function getKeyValue(value: string): string {
-  return value.trim().replace(/[\[|\]\{\}]/g, '');
+  return value.trim().replace(/[\[|\]\{\}\(\)]/g, '');
 }
 
 function getDataValue(value: string): string | boolean | number {
@@ -81,10 +82,14 @@ function catchKeySyntaxError(key: string) {
   }
 }
 
-function isArray(input: string) {
+function isArray(input: string): boolean {
   return input.indexOf('[') > -1;
 }
 
-function isSimpleArray(input: string) {
+function isSimpleArray(input: string): boolean {
   return input.indexOf('{') > -1;
+}
+
+function isIndex(input: string): boolean {
+  return input.indexOf('(') > -1;
 }

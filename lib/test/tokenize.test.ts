@@ -111,4 +111,18 @@ describe('Tokenize', () => {
     ];
     expect(Tokenize(input)).toEqual(expectToken);
   });
+
+  it('should tokenize multiple resource ', () => {
+    const input = 'Patient.(0).name.[1].given.{1}="Peter"';
+    const expectToken: Node[] = [
+      { type: 'resource', value: 'Patient' },
+      { type: 'index', value: '0' },
+      { type: 'field', value: 'name' },
+      { type: 'array', value: '1' },
+      { type: 'field', value: 'given' },
+      { type: 'simpleArray', value: '1' },
+      { type: 'data', value: 'Peter' },
+    ];
+    expect(Tokenize(input)).toEqual(expectToken);
+  });
 });

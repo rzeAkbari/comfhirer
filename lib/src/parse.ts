@@ -6,12 +6,15 @@ export default function Parse(tokens: Node[]): ASTNode {
     type: 'Resource',
     name: '',
     value: '',
+    index: 0,
   };
 
   for (const token of tokens) {
     if (token.type === 'resource') {
       ast.type = 'Resource';
       ast.name = token.value;
+    } else if (token.type === 'index') {
+      ast.index = Number.parseInt(token.value);
     } else if (
       token.type === 'field' ||
       token.type === 'array' ||

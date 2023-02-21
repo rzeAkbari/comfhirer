@@ -249,4 +249,84 @@ describe('Travers', () => {
       expect(fhirResource).toEqual(expected);
     });
   });
+
+  it.only('should traverse multiple resource', () => {
+    const ast: ASTNode[] = [
+      {
+        type: 'Resource',
+        name: 'Patient',
+        index: 0,
+        field: {
+          level: 1,
+          type: 'FlatField',
+          name: 'name',
+          field: {
+            level: 2,
+            type: 'MultipleFields',
+            name: '0',
+            field: {
+              level: 3,
+              type: 'FlatField',
+              name: 'given',
+              field: {
+                level: 4,
+                type: 'MultipleSimpleFields',
+                name: '0',
+              },
+            },
+          },
+        },
+        value: 'Peter',
+      },
+      {
+        type: 'Resource',
+        name: 'Patient',
+        index: 1,
+        field: {
+          level: 1,
+          type: 'FlatField',
+          name: 'name',
+          field: {
+            level: 2,
+            type: 'MultipleFields',
+            name: '0',
+            field: {
+              level: 3,
+              type: 'FlatField',
+              name: 'given',
+              field: {
+                level: 4,
+                type: 'MultipleSimpleFields',
+                name: '0',
+              },
+            },
+          },
+        },
+        value: 'Sahar',
+      },
+    ];
+
+    const expected: Patient[] = [
+      {
+        resourceType: 'Patient',
+        name: [
+          {
+            given: ['Peter'],
+          },
+        ],
+      },
+      {
+        resourceType: 'Patient',
+        name: [
+          {
+            given: ['Sahar'],
+          },
+        ],
+      },
+    ];
+
+    const fhirResource = traverse(ast);
+
+    expect(fhirResource).toEqual(expected);
+  });
 });

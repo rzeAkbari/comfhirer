@@ -9,6 +9,7 @@ import patientExtension from './fixtures/result/4-patient.extention.json';
 import patientMultipleAddress from './fixtures/result/5-patient.multiple.address.json';
 import patientContact from './fixtures/result/6-patient.contact.json';
 import patientMedication from './fixtures/result/0-multiple-resource.json';
+import patientMultiple from './fixtures/result/7-patient.multiple.json';
 
 import { Compile } from '../../src/main';
 describe('Patient e2e', () => {
@@ -89,6 +90,16 @@ describe('Patient e2e', () => {
 
       expect(patient).toEqual(patientMedication[0]);
       expect(medication).toEqual(patientMedication[1]);
+    });
+
+    it('should set multiple patient resource', () => {
+      const file = fs.readFileSync(
+        path.resolve(__dirname, './fixtures/input/7-patient.multiple.txt')
+      );
+      let [patientOne, patientTwo] = Compile(file);
+
+      expect(patientOne).toEqual(patientMultiple[0]);
+      expect(patientTwo).toEqual(patientMultiple[1]);
     });
   });
 });
