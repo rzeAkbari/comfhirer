@@ -1,5 +1,9 @@
-import { Dashboard, LocalFireDepartmentSharp } from '@mui/icons-material';
-import { Box, styled } from '@mui/material';
+import {
+  AttachFile,
+  Dashboard,
+  LocalFireDepartmentSharp,
+} from '@mui/icons-material';
+import { Box, makeStyles, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 function FixedDrawer() {
@@ -49,6 +53,16 @@ function FixedDrawer() {
           aria-label='caller'
         >
           <LocalFireDepartmentSharp color='secondary' fontSize='large' />
+        </NavLink>
+      </LinkStyler>
+      <LinkStyler>
+        <NavLink
+          className={({ isActive }) => (isActive ? '' : undefined)}
+          to='upload'
+          style={{ alignSelf: 'center' }}
+          aria-label='upload'
+        >
+          <AttachFile color='secondary' fontSize='large' />
         </NavLink>
       </LinkStyler>
     </FixedBox>

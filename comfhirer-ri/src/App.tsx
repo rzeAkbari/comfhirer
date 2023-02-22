@@ -3,6 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ComfhirerCaller from './components/caller/ComfhirerCaller';
 import Dashboard from './components/dashboard/Dashboard';
 import Layout from './components/layout/Layout';
+import Upload from './components/upload/Upload';
 
 const router = createBrowserRouter([
   {
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
       {
         path: 'caller',
         element: <ComfhirerCaller />,
+      },
+      {
+        path: 'upload',
+        element: <Upload />,
       },
     ],
   },
