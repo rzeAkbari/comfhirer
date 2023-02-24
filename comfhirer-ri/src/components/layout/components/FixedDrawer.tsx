@@ -3,21 +3,22 @@ import {
   Dashboard,
   LocalFireDepartmentSharp,
 } from '@mui/icons-material';
-import { Box, makeStyles, styled } from '@mui/material';
+import { Box, styled } from '@mui/material';
 import { NavLink } from 'react-router-dom';
 
 function FixedDrawer() {
-  const FixedBox = styled(Box)({
-    position: 'fixed',
+  const FixedBox = styled(Box)(({ theme }) => ({
     left: 0,
-    top: 64,
+    top: 0,
     height: '100%',
     width: '60px',
     display: 'flex',
     flexFlow: 'column',
     paddingTop: '2rem',
     justifyContent: 'start',
-  });
+    backgroundColor: theme.palette.primary.dark,
+    zIndex: 0,
+  }));
 
   const LinkStyler = styled('div')(({ theme }) => ({
     width: '100%',
@@ -34,7 +35,7 @@ function FixedDrawer() {
     },
   }));
   return (
-    <FixedBox sx={{ borderRight: '1px solid #33ab9f70' }}>
+    <FixedBox>
       <LinkStyler>
         <NavLink
           className={({ isActive }) => (isActive ? '.Mui-active' : undefined)}
