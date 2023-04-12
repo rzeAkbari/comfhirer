@@ -12,12 +12,14 @@ import {
 const Input = styled('input')({
   display: 'none',
 });
-const FlexBox = styled('div')({
+const FlexBox = styled('div')(({ theme }) => ({
   height: '80vh',
   display: 'flex',
   width: '100%',
-});
-
+  iframe: {
+    border: '1px solid' + theme.palette.secondary.main,
+  },
+}));
 function Upload() {
   const [imageSrc, setImageSrc] = useState<string>('');
   const [paperWidth, setPaperWidth] = useState<number>(500);
