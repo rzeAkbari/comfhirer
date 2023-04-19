@@ -1,4 +1,8 @@
-import { PhotoCamera, SwapHorizontalCircleRounded } from '@mui/icons-material';
+import {
+  Fireplace,
+  PhotoCamera,
+  SwapHorizontalCircleRounded,
+} from '@mui/icons-material';
 import { Paper, IconButton, styled } from '@mui/material';
 import {
   Fragment,
@@ -8,6 +12,7 @@ import {
   ChangeEvent,
   Dispatch,
 } from 'react';
+import useGetFhir from '../../hooks/useGetFhir';
 
 const Input = styled('input')({
   display: 'none',
@@ -21,11 +26,16 @@ const FlexBox = styled('div')(({ theme }) => ({
   },
 }));
 function Upload() {
-  const [imageSrc, setImageSrc] = useState<string>('');
+  const [imageSrc, setIframeSrc] = useState<string>('');
   const [paperWidth, setPaperWidth] = useState<number>(500);
+  const fileRef = useRef<HTMLInputElement>(null);
   const isSwiping = useRef<boolean>(false);
-  const startingPoint = useRef<number>(0);
   const requestRef = useRef<number>(0);
+  const startingPoint = useRef<number>(0);
+  const { data, isError, isLoading, error, refetch } = useGetFhir(
+    fileRef.current?.files?.[0],
+    fileRef.current?.files?.[0].name
+  );
 
   useEffect(() => {
     return () => cancelAnimationFrame(requestRef.current);
@@ -45,20 +55,32 @@ function Upload() {
 
   return (
     <Fragment>
-      <label htmlFor='icon-button-file' style={{ position: 'absolute' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <label htmlFor='icon-button-file'>
+          <IconButton
+            color='primary'
+            aria-label='upload picture'
+            component='span'
+          >
+            <PhotoCamera fontSize='large' />
+          </IconButton>
+          <Input
+            id='icon-button-file'
+            type='file'
+            ref={fileRef}
+            onChange={(event) => handleUpload(event, setIframeSrc)}
+          />
+        </label>
         <IconButton
           color='primary'
-          aria-label='upload picture'
+          aria-label='fhir'
           component='span'
+          onClick={() => refetch()}
         >
-          <PhotoCamera fontSize='large' />
+          <Fireplace fontSize='large' />
         </IconButton>
-        <Input
-          id='icon-button-file'
-          type='file'
-          onChange={(event) => handleUpload(event, setImageSrc)}
-        />
-      </label>
+      </div>
+
       <FlexBox>
         <iframe title='upload' src={imageSrc} width='100%' />
         <button
@@ -82,8 +104,9 @@ function Upload() {
             color='secondary'
           />
         </button>
-
-        <Paper sx={{ minWidth: paperWidth + 'px' }}></Paper>
+        <Paper sx={{ minWidth: paperWidth + 'px', overflow: 'scroll' }}>
+          <pre>{JSON.stringify(data, undefined, 2)}</pre>
+        </Paper>
       </FlexBox>
     </Fragment>
   );
