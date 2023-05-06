@@ -20,7 +20,7 @@ function useGetFhir(file: File | null | undefined, name: string | undefined) {
   const { data, isError, error, isLoading, refetch } = useQuery({
     queryKey: ['file', name],
     queryFn: () => getFhir(file),
-    enabled: file !== null && file !== undefined,
+    enabled: file !== null && file !== undefined && name !== '',
     refetchOnWindowFocus: false,
   });
 

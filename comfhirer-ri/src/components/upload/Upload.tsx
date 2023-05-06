@@ -32,9 +32,9 @@ function Upload() {
   const isSwiping = useRef<boolean>(false);
   const requestRef = useRef<number>(0);
   const startingPoint = useRef<number>(0);
-  const { data, isError, isLoading, error, refetch } = useGetFhir(
+  const { data, refetch } = useGetFhir(
     fileRef.current?.files?.[0],
-    fileRef.current?.files?.[0].name
+    fileRef.current?.files?.[0] ? fileRef.current?.files?.[0].name : ''
   );
 
   useEffect(() => {
