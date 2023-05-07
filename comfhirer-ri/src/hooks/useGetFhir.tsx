@@ -10,7 +10,7 @@ async function getFhir(file: File | null | undefined) {
     headers: {
       'Content-Type': 'multipart/form-data',
     },
-    baseURL: 'http://localhost:5500',
+    baseURL: 'http://localhost:8080',
   });
 
   return result.data;
