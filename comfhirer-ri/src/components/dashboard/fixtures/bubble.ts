@@ -11,7 +11,7 @@ export const options = {
 export const data = {
   datasets: [
     {
-      label: 'Red dataset',
+      label: 'Practitioner One',
       data: Array.from({ length: 50 }, () => ({
         x: faker.datatype.number({ min: -100, max: 100 }),
         y: faker.datatype.number({ min: -100, max: 100 }),
@@ -20,7 +20,7 @@ export const data = {
       backgroundColor: 'rgba(255, 99, 132, 0.5)',
     },
     {
-      label: 'Blue dataset',
+      label: 'Practitioner Two',
       data: Array.from({ length: 50 }, () => ({
         x: faker.datatype.number({ min: -100, max: 100 }),
         y: faker.datatype.number({ min: -100, max: 100 }),

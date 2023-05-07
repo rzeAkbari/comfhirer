@@ -1,5 +1,12 @@
 export const data = {
-  labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+  labels: [
+    'Patient Red',
+    'Patient Blue',
+    'Patient Yellow',
+    'Patient Green',
+    'Patient Purple',
+    'Patient Orange',
+  ],
   datasets: [
     {
       label: '# of Votes',
